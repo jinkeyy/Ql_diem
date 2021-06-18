@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>QLDiem</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-DataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="container-fluid" style="padding: 0px;">
+        <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" data-aos="fade-down" style="background: var(--gray);">
+            <div class="container"><a class="navbar-brand" href="#" style="color: var(--light);">Hệ Thống Quản Lý Điểm</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"></li>
+                        <li class="nav-item"></li>
+                    </ul>
+                    <div class="dropdown"><a class="dropdown-toggle" aria-expanded="false" data-toggle="dropdown" href="#" style="color: var(--light);">Tài Khoản</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">Thông Tin Tài Khoản</a><a class="dropdown-item" href="#">Đăng Xuất</a></div>
+                    </div><span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="#" data-toggle="modal" data-target="#form-login">Đăng nhập ngay</a></span>
+                </div>
+            </div>
+        </nav>
+        <div class="row" style="height: 100vh;margin: 0px;">
+            <div class="col-xl-2" style="border-right: 3px solid var(--gray);padding: 0px;">
+                <div>
+                    <ul class="list-unstyled" style="padding: 3px;">
+                        <li class="d-flex justify-content-center align-items-center item item-active" style="color: var(--gray-dark);background: rgb(255,255,255);height: 40px;"><strong>Trang Chủ</strong></li>
+                        <li class="d-flex justify-content-center align-items-center item" style="color: var(--gray-dark);background: rgb(255,255,255);height: 40px;"><strong>Sinh Viên</strong></li>
+                        <li class="d-flex justify-content-center align-items-center item" style="color: var(--gray-dark);background: rgb(255,255,255);height: 40px;"><strong>Môn Học</strong></li>
+                        <li class="d-flex justify-content-center align-items-center item" style="color: var(--gray-dark);background: rgb(255,255,255);height: 40px;"><strong>Lớp Học Phần</strong></li>
+                        <li class="d-flex justify-content-center align-items-center item" style="color: var(--gray-dark);background: rgb(255,255,255);height: 40px;"><strong>Quản Lý Điểm</strong></li>
+                        <li class="d-flex justify-content-center align-items-center item" style="color: var(--gray-dark);background: rgb(255,255,255);height: 40px;"><strong>Thống Kê</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col main-content" style="padding: 0px;">
+                <div>
+                    <div style="padding: 10px;">
+                        <div class="d-flex justify-content-end align-items-center" style="padding: 30px;"><button class="btn btn-primary btn-lg" type="button">Tạo Lớp Mới</button></div>
+                        <div class="d-flex justify-content-between align-items-center" style="padding: 30px;">
+                            <div class="d-flex align-items-center" style="width: 40%;"><label style="color: var(--pink);width: 30%;">Lớp:&nbsp;</label><select class="form-control">
+                                    <optgroup label="This is a group">
+                                        <option value="12" selected="">This is item 1</option>
+                                        <option value="13">This is item 2</option>
+                                        <option value="14">This is item 3</option>
+                                    </optgroup>
+                                </select></div>
+                            <div class="d-flex align-items-center" style="width: 40%;"><label style="color: var(--pink);width: 30%;">Môn học:&nbsp;</label><select class="form-control">
+                                    <optgroup label="This is a group">
+                                        <option value="12" selected="">This is item 1</option>
+                                        <option value="13">This is item 2</option>
+                                        <option value="14">This is item 3</option>
+                                    </optgroup>
+                                </select></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="padding: 30px;">
+                        <div style="margin: 15px 0px;">
+                            <h5 style="color: var(--pink);">Danh sách sinh viên lớp:&nbsp;<span style="color: var(--gray-dark);">Text</span></h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Column 1</th>
+                                        <th>Column 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Cell 1</td>
+                                        <td>Cell 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cell 3</td>
+                                        <td>Cell 4</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-end"><button class="btn btn-primary" type="button">In danh sách sinh viên lớp</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="assets/js/Bootstrap-DataTables.js"></script>
+    <script src="assets/js/load.js"></script>
+</body>
+
+</html>

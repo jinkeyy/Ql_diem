@@ -1,0 +1,32 @@
+.item:hover {
+  background: #dbdbdb !important;
+  color: black !important;
+  transition: all 0.5s;
+}
+
+.item-active {
+  background-color: var(--gray) !important;
+  color: white !important;
+  transition: all 0.5s;
+}
+.item{
+    cursor: pointer;
+    
+}
+.btn-nhap-diem{
+  cursor: pointer;
+  border-radius: 5px;
+}
+.btn-sua-diem{
+  cursor: pointer;
+  border-radius: 5px;
+}
+.btn-nhap-diem:hover{
+  background: tomato !important;
+  transition: 0.3s all;
+}
+
+.btn-sua-diem:hover{
+  background: lightskyblue !important;
+  transition: 0.3s all;
+}
