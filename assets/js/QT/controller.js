@@ -186,7 +186,7 @@ controller.getDSSVL = (idLop)=>{
                                     alert("Xóa thành công")
                                     controller.getDSSVL(idLop)
                                 }else{
-                                    alert("Lỗi xóa")
+                                    alert("Hiện tại sinh viên đã có điểm tại lớp không thể xóa")
                                 }
                                
                             }
@@ -198,7 +198,7 @@ controller.getDSSVL = (idLop)=>{
         }
     });
 }
-controller.getDsl = (idLop)=>{
+controller.getDsl = (idLop,maMon)=>{
     console.log("Danh sách sv")
     $.ajax({
         type: "POST",
@@ -216,7 +216,7 @@ controller.getDsl = (idLop)=>{
                 `
                for(let item of list){
                    htmlRaw = htmlRaw +  `
-                   <option data-tokens="${item.idSinhVien}" value="${item.idSinhVien}" idLop="${idLop}">${item.idSinhVien}- ${item.tenSinhVien}</option> 
+                   <option data-tokens="${item.idSinhVien}" value="${item.idSinhVien}" idLop="${idLop}" maMon="${maMon}">${item.idSinhVien}- ${item.tenSinhVien}</option> 
                    `
                }
                htmlRaw =htmlRaw+ `</select>`
@@ -234,17 +234,18 @@ document.querySelector(".btn-tao-sv-lop").addEventListener("click",()=>{
     const sv = {
         maLop:document.getElementsByName("selectSvLop")[0].options[document.getElementsByName("selectSvLop")[0].selectedIndex].getAttribute("idLop"),
         maSinhVien:document.getElementsByName("selectSvLop")[0].value,
+        maMonHoc:document.getElementsByName("selectSvLop")[0].options[document.getElementsByName("selectSvLop")[0].selectedIndex].getAttribute("maMon"),
     }
     $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/taoSinhVienLop.php',
         data: sv,
-        success: (data) => {
+        success: (data) => {   
             if(JSON.parse(data)[0].notification == "true"){
                 $('#form-tao-sv-vao-lop').modal('hide');
                 alert("Thêm sinh viên vào lớp thành công");
             }else if(JSON.parse(data)[0].notification == "trung"){
-                alert("Sinh viên đã ở trong lớp này")
+                alert("Sinh viên đã ở trong lớp này hoặc đã học môn này")
                 $('#form-tao-sv-vao-lop').modal('hide');
             }else{
                 alert("Lỗi")
@@ -314,7 +315,7 @@ controller.getLop = ()=>{
                         <td>${item.idLop}</td>
                         <td class="monhoc">${item.tenMonHoc}</td>
                         <td class="hocky">${item.tenHocKy}</td>
-                        <td><a class="item-lop" maLop="${item.idLop}">Xem danh sách lớp chi tiết</a></td>
+                        <td><a class="item-lop" maLop="${item.idLop}" maMon="${item.maMonHoc}" >Xem danh sách lớp chi tiết</a></td>
                    </tr> 
                    `
                }
@@ -324,7 +325,7 @@ controller.getLop = ()=>{
                for(let item of listLop){
                    item.addEventListener("click",()=>{
                     document.querySelector(".table-content").innerHTML = components.tableDsl(item.getAttribute("maLop"),item.parentElement.parentElement.querySelector(".monhoc").textContent,item.parentElement.parentElement.querySelector(".hocky").textContent)
-                    controller.getDsl(item.getAttribute("maLop"))
+                    controller.getDsl(item.getAttribute("maLop"),item.getAttribute("maMon"))
                    })
                }
             }
@@ -404,7 +405,6 @@ controller.loadNhapDiem = ()=>{
      document.querySelector(".btn-search-lop").addEventListener("click",()=>{
         let t = document.getElementsByName("selectLopDiem")[0]
         let text = t.options[t.selectedIndex].text
-        console.log(t.value)
         document.querySelector(".table-content").innerHTML = components.mainContentNhapDiem(text)
         $.ajax({
             type: "POST",
@@ -457,7 +457,6 @@ controller.nhapDiem = (req)=>{
             idSVLop:req.idSVLop
         },
         success: (data) => {
-            console.log(data)
             const list = JSON.parse(data);
             if(list[0].notification=="true"){
                 document.querySelector(".body-nhapdiem").innerHTML = `

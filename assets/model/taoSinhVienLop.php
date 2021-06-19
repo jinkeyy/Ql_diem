@@ -3,9 +3,10 @@
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $maLop = $_REQUEST["maLop"];
         $maSinhVien = $_REQUEST["maSinhVien"];
+        $maMonHoc = $_REQUEST["maMonHoc"];
         $sql_query= "insert into t_danhsachsinhvienlop(maLop,maSinhVien) values(".$maLop.",".$maSinhVien.")";
         $a = array();
-        $sql_check = "SELECT * FROM t_danhsachsinhvienlop WHERE maLop = ".$maLop." AND maSinhVien = ".$maSinhVien;
+        $sql_check = "SELECT * FROM t_danhsachsinhvienlop INNER JOIN t_lop ON t_lop.idLop = t_danhsachsinhvienlop.maLop WHERE maLop = ".$maLop." AND maSinhVien = ".$maSinhVien." OR maSinhVien =".$maSinhVien." AND maMonHoc ='".$maMonHoc."'";
         $check = mysqli_query($connect,$sql_check);
             if(mysqli_num_rows($check) > 0){
                 array_push($a,array("notification" => "trung"));
