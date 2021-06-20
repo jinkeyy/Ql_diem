@@ -112,10 +112,13 @@ components.mainContentDiem = (userSv,tenSv)=>{
                   <th>Học Kỳ</th>
                   <th>Mã Môn Học</th>
                   <th>Tên Mồn Học</th>
+                  <th>Số Tín Chỉ</th>
                   <th>Điểm Chuyên Cần</th>
                   <th>Điểm Giữa Kỳ</th>
                   <th>Điểm Cuối Kỳ</th>
                   <th>Điểm Trung Bình</th>
+                  <th>Điểm Thang 4</th>
+                  <th>Xếp Loại</th>
                   <th>Đánh Giá</th>
               </tr>
           </thead>

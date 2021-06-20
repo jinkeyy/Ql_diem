@@ -81,7 +81,6 @@ controller.loadDiem   =   (idSinhVien)  =>  {
                     //         }
                     //     }
                     // });
-                    console.log(dataDiem)
                     for(let diem of dataDiem){
                         if (diem.diemCC == null || diem.diemGK == null || diem.diemCK == null) {
                         
@@ -114,7 +113,6 @@ controller.loadDiem   =   (idSinhVien)  =>  {
                     let diem4 = Number(tongdiemTb4)/Number(soTinChi)
                     if(isNaN(diem4)){
                         diem4 = 0
-                        console.log(diem4)
                     }
                     
                     document.querySelector(".list-tongdiem").insertAdjacentHTML("beforebegin",`<tr>
@@ -126,8 +124,6 @@ controller.loadDiem   =   (idSinhVien)  =>  {
                     htmlRaw = htmlRaw + `<option value="${maHk}" >${tenHk}</option>`
                     tongSoTinChi=tongSoTinChi+Number(soTinChi)
                 }
-                console.log(tongDiem4)
-                console.log(tongSoTinChi)
                 document.querySelector(".list-tongdiem").insertAdjacentHTML("beforebegin",`<tr>
                 <td>Toàn Khóa</td>
                 <td>${tongSoTinChi}</td>
@@ -161,6 +157,7 @@ controller.getDiem = (idSinhVien, maHocKy = "all") => {
                             return {
                                 tenMonHoc: item["tenMonHoc"],
                                 tenHocKy: item["tenHocKy"],
+                                soTinChi: item["soTinChi"],
                             }
                         }
                     }
@@ -178,14 +175,17 @@ controller.getDiem = (idSinhVien, maHocKy = "all") => {
                         if (diem[0].notification) {
                 
                              document.querySelector(".list-diem-by-sinhvien").innerHTML = `<tr>
-                             <td colspan="9">Không có bản ghi nào</td>
+                             <td colspan="12">Không có bản ghi nào</td>
                              </tr>`
                         } else {
                             let htmlRaw = ""
                             let stt = 1
                             for (let item of diem) {
+                                soTinChi = getMonHoc(item.maLop).soTinChi
+                                let diem4 = 0;
                                 let diemTB = ""
                                 let danhGia = ""
+                                let xepLoai = ""
                                 if (item.diemCC == null || item.diemGK == null || item.diemCK == null) {
                                     
                                 } else {
@@ -195,20 +195,44 @@ controller.getDiem = (idSinhVien, maHocKy = "all") => {
                                     } else {
                                         danhGia = "HỌC LẠI"
                                     }
+                                    
+                                    if(diemTB<4){
+                                        diem4 = 0*soTinChi/soTinChi
+                                        xepLoai = "F"
+                                    }else if(diemTB>=4 && diemTB <=5.4){
+                                        diem4 = 1*soTinChi/soTinChi
+                                        xepLoai = "D"
+                                    }else if(diemTB >= 5.5 && diemTB <= 6.9){
+                                        diem4 = 2*soTinChi/soTinChi
+                                        xepLoai = "C"
+                                    }
+                                    else if(diemTB >= 7 && diemTB <= 8.4){
+                                        diem4 = 3*soTinChi/soTinChi
+                                        xepLoai = "B"
+                                    }
+                                    else if(diemTB >= 8.5){
+                                        diem4 = 4*soTinChi/soTinChi
+                                        xepLoai = "A"
+                                    }
+
+
                                 }
                                 tenMonHoc = getMonHoc(item.maLop).tenMonHoc
                                 tenHocKy= getMonHoc(item.maLop).tenHocKy
-
+   
                                 htmlRaw = htmlRaw + `
                                 <tr>
                                     <td>${stt++}</td>
                                     <td>${tenHocKy}</td>
                                     <td>${item.maMonHoc}</td>
                                     <td>${tenMonHoc}</td>
+                                    <td>${soTinChi}</td>
                                     <td>${item.diemCC}</td>
                                     <td>${item.diemGK}</td>
                                     <td>${item.diemCK}</td>
                                     <td>${diemTB}</td>
+                                    <td>${diem4}</td>
+                                    <td>${xepLoai}</td>
                                     <td>${danhGia}</td>
                                 </tr>
                                 `
