@@ -86,7 +86,7 @@ controller.loadDiem   =   (idSinhVien)  =>  {
                         
                         } else{
                             tongMon = tongMon+1
-                            const diemMon = (( Number(diem.diemCC) +  Number(diem.diemGK) +  Number(diem.diemCK)) / 3)
+                            const diemMon = (( Number(diem.diemCC)*0.2 +  Number(diem.diemGK)*0.2 +  Number(diem.diemCK)*0.6))
                             tongdiemTb = Number(tongdiemTb) +diemMon
                             tongDiem= tongDiem+diemMon
                             soTinChi = Number(soTinChi) + Number(getSoTinChi(diem.maLop).soTinChi)
@@ -189,7 +189,7 @@ controller.getDiem = (idSinhVien, maHocKy = "all") => {
                                 if (item.diemCC == null || item.diemGK == null || item.diemCK == null) {
                                     
                                 } else {
-                                    diemTB = (Number( Number(item.diemCC) +  Number(item.diemGK) +  Number(item.diemCK)) / 3).toFixed(1)
+                                    diemTB = (Number( Number(item.diemCC)*0.2 +  Number(item.diemGK)*0.2 +  Number(item.diemCK)*0.6)).toFixed(1)
                                     if (diemTB >= 4) {
                                         danhGia = "ĐẠT"
                                     } else {

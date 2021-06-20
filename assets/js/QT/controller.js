@@ -691,7 +691,145 @@ controller.loadSuaDiem = () => {
 }
 
 
-controller.loadHocBong = () => { }
+
+function getLopSv() {
+    return new Promise(res=>{
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost/Ql_diem/assets/model/getLopSv.php',
+            success: (data) => {
+                res(JSON.parse(data))
+            }
+        });
+    });
+}
+
+
+
+controller.loadHocBong = () => {
+    document.querySelector(".main-content").innerHTML = `
+    <div>
+        <div style="padding: 30px;">
+            <label>Xem danh sách sinh viên học bổng học kỳ:</label>
+            <select class="selectpicker4" data-live-search="true" name="selectHocBong">
+                
+            </select> 
+            <button class="btn btn-primary btn-hocbong" type="button" >Xác nhận</button>
+        </div>
+    </div>
+    <div class="table-content">
+        <div style="padding: 30px;">
+        
+        </div>
+    </div>
+    `
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost/Ql_diem/assets/model/getHocKy.php',
+        data: {
+            key: 1,
+        },
+        success: (data) => {
+            const list = JSON.parse(data);
+
+            if (list[0].notification) {
+
+            } else {
+                for(let item of list){
+                document.getElementsByName("selectHocBong")[0].insertAdjacentHTML("beforeend",`<option data-tokens="" value="${item.idHocKy}"> ${item.tenHocKy}</option>`)
+                }
+            }
+            $('.selectpicker4').selectpicker();
+        }
+    });
+    document.querySelector(".btn-hocbong").addEventListener("click",()=>{
+        document.querySelector(".table-content").innerHTML =  components.mainContentHocBong( document.getElementsByName("selectHocBong")[0].options[document.getElementsByName("selectHocBong")[0].selectedIndex].text)
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost/Ql_diem/assets/model/getSinhVien.php',
+            data: {
+                key: 1,
+            },
+            success: (data) => {
+                const list = JSON.parse(data);
+                if (list[0].notification) {
+                        document.querySelector(".list-danhsachsinhvien").innerHTML = `<tr>
+                        <td colspan="7">Không có bản ghi nào</td>
+                        </tr>`
+                }else{
+                    let stt =1
+                    document.querySelector(".list-danhsachsinhvien").innerHTML = `<tr>
+                    <td colspan="7" class="no">Không có bản ghi nào</td>
+                    </tr>`
+                    for(let sv of list){
+                        $.ajax({
+                            type: "GET",
+                            url: 'http://localhost/Ql_diem/assets/model/getDiembyHocKy.php',
+                            data: {
+                                maSinhVien:sv.idSinhVien,
+                                maHocKy:document.getElementsByName("selectHocBong")[0].value 
+                            },
+                            success: async (data) => {
+                                const res = JSON.parse(data);
+                                const lopSv = await getLopSv()
+
+                                getSoTinChi =  (maLop) => {
+                                    for (let item of lopSv) {
+                                        if (item["idLop"] == maLop) {
+                                            return {
+                                                tenMonHoc: item["tenMonHoc"],
+                                                tenHocKy: item["tenHocKy"],
+                                                soTinChi: item["soTinChi"],
+                                            }
+                                        }
+                                    }
+                                }
+                  
+                                let tongTinChi = 0
+                                if (res[0].notification) {
+                                }else{
+                                    for(let item of res){
+                                        if (item.diemCC == null || item.diemGK == null || item.diemCK == null) {
+                                        }else{
+                                            tongTinChi=tongTinChi+Number(getSoTinChi(item.idLop).soTinChi)
+                                        }
+                                    }
+                                   
+                                }
+
+                                if(tongTinChi>5){
+                                    let diemTb = 0
+                                    for(let item of res){
+                                        if (item.diemCC == null || item.diemGK == null || item.diemCK == null) {
+                                        }else{
+                                             diemTb = diemTb + (( Number(item.diemCC)*0.2 +  Number(item.diemGK)*0.2 +  Number(item.diemCK)*0.6))
+                                        }
+                                    }
+                                    if(diemTb/res.length>=8.5){
+                                        document.querySelector(".no").style = "display:none"
+                                        temp = 1
+                                        document.querySelector(".list-danhsachsinhvien").insertAdjacentHTML("beforeend",`
+                                        <tr>
+                                            <th>${stt++}</th>
+                                            <th>${sv.idSinhVien}</th>
+                                            <th>${sv.tenSinhVien}</th>
+                                            <th>${sv.ngaySinh}</th>
+                                            <th>${sv.khoa}</th>
+                                            <th>${diemTb/res.length}</th>
+                                            <th>Giỏi</th>
+                                        </tr>
+                                        `)
+                                    }
+                                }
+       
+                            }
+                        })
+                    }
+                }
+            }
+        })
+    })
+ }
 
 controller.loadNoMon = () => {
     document.querySelector(".main-content").innerHTML = `
@@ -752,7 +890,7 @@ controller.loadNoMon = () => {
                         if (item.diemCC == null || item.diemGK == null || item.diemCK == null) {
                         }
                         else{
-                            let diemTB = (Number( Number(item.diemCC) +  Number(item.diemGK) +  Number(item.diemCK)) / 3).toFixed(1)
+                            let diemTB = (Number( Number(item.diemCC)*0.2 +  Number(item.diemGK)*0.2 +  Number(item.diemCK)*0.6)).toFixed(1)
                             if(diemTB<4){
                                 temp = 1
                                 document.querySelector(".list-danhsachsinhvien").insertAdjacentHTML("beforeend",`

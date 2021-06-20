@@ -334,3 +334,30 @@ components.mainContentNoMon = (text)=>{
 </div>  
   `
 }
+
+components.mainContentHocBong = (text)=>{
+  return `
+  <div style="padding: 30px;">
+  <div style="margin: 15px 0px;">
+      <h5 style="color: var(--pink);">Danh sách sinh viên học bổng :&nbsp;<span style="color: var(--gray-dark);">${text}</span></h5>
+  </div>
+  <div class="table-responsive">
+      <table class="table table-hover">
+          <thead class="thead-dark">
+              <tr>
+                  <th>STT</th>
+                  <th>Mã sinh viên</th>
+                  <th>Họ tên sinh viên</th>
+                  <th>Ngày sinh</th>
+                  <th>Khóa</th>
+                  <th>Điểm Trung Bình </th>
+                  <th>Xếp Loại</th>
+              </tr>
+          </thead>
+          <tbody class="list-danhsachsinhvien">
+          </tbody>
+      </table>
+  </div>
+</div>  
+  `
+}
