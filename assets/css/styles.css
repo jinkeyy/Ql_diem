@@ -31,3 +31,18 @@
   transition: 0.3s all;
 
 }
+
+.btn-thongkenomon{
+  cursor: pointer;
+}
+.btn-thongkehocbong{
+  cursor: pointer;
+}
+.btn-thongkenomon:hover{
+  background: tomato !important;
+  transition: 0.3s all;
+}
+.btn-thongkehocbong:hover{
+  background: lightskyblue !important;
+  transition: 0.3s all;
+}

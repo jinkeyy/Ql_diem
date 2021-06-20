@@ -67,6 +67,16 @@ let view = {}
                             controller.loadSuaDiem()
                         })
                         break;
+                    case '6':
+                        view.setScreen("main-content",components.mainContentThongKe())
+                        document.querySelector(".btn-thongkehocbong").addEventListener("click",()=>{
+                            controller.loadHocBong()
+
+                        })
+                        document.querySelector(".btn-thongkenomon").addEventListener("click",()=>{
+                            controller.loadNoMon()
+                        })
+                        break;
                     default:
                         alert("Lỗi")
                 }

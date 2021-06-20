@@ -285,3 +285,52 @@ components.mainContentNhapDiem = (text)=>{
   </div>
 </div>`
 }
+components.mainContentThongKe = ()=>{
+  return `
+  <div class="row" style="margin: 0px;height: 300px;">
+    <div class="col d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items-center btn-thongkehocbong" style="width: 50%;height: 200px;background: linear-gradient(-82deg, var(--blue) 4%, var(--info) 97%), var(--red);box-shadow: 0px 0px 10px var(--gray-dark);">
+            <h3 style="color: var(--light);font-size: 100%;" >THỐNG KÊ SINH VIÊN CÓ HỌC BỔNG</h3>
+        </div>
+    </div>
+    <div class="col d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items-center btn-thongkenomon" style="width: 50%;background: linear-gradient(66deg, var(--pink), var(--danger)), var(--info);color: var(--pink);height: 200px;box-shadow: 0px 0px 10px 0px #465765;">
+            <h3 style="color: var(--light);font-size: 100%;">THỐNG KÊ SINH VIÊN NỢ MÔN</h3>
+        </div>
+    </div>
+  </div>`
+}
+components.mainContentNoMon = (text)=>{
+  return `
+  <div style="padding: 30px;">
+  <div style="margin: 15px 0px;">
+      <h5 style="color: var(--pink);">Danh sách sinh viên nợ môn:&nbsp;<span style="color: var(--gray-dark);">${text}</span></h5>
+  </div>
+  <div class="table-responsive">
+      <table class="table table-hover">
+          <thead class="thead-dark">
+              <tr>
+                  <th>STT</th>
+                  <th>Mã sinh viên</th>
+                  <th>Họ tên sinh viên</th>
+                  <th>Ngày sinh</th>
+                  <th>Khóa</th>
+                  <th>Điểm Chuyên Cần </th>
+                  <th>Điểm Giữa Ky</th>
+                  <th>Điểm Cuối Kỳ </th>
+                  <th>Điểm Trung Bình </th>
+                  <th>Đánh Giá </th>
+              </tr>
+          </thead>
+          <tbody class="list-danhsachsinhvien">
+              <tr>
+              <tr>
+              <td colspan="10">không có bản ghi nào</td>
+               </tr>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>  
+  `
+}

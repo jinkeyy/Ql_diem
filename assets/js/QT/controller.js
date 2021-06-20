@@ -1,22 +1,22 @@
 let controller = {
 
 }
-controller.getSv = (kw = "1")=>{
+controller.getSv = (kw = "1") => {
     $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getSinhVien.php',
-        data:{
-            key:kw,
+        data: {
+            key: kw,
         },
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
+            const list = JSON.parse(data);
+            if (list[0].notification) {
                 alert("Không có bản ghi nào")
-            }else{
-               let htmlRaw  = ""
-               let stt =1
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            } else {
+                let htmlRaw = ""
+                let stt = 1
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <tr>
                         <td>${stt++}</td>
                         <td>${item.idSinhVien}</td>
@@ -26,102 +26,102 @@ controller.getSv = (kw = "1")=>{
                         <td>${item.diaChi}</td>
                    </tr> 
                    `
-               }
-               document.querySelector(".list-sinhvien").innerHTML = htmlRaw
+                }
+                document.querySelector(".list-sinhvien").innerHTML = htmlRaw
                 tableSinhVien()
-    
+
             }
 
         }
-      });
-      
+    });
+
 }
-controller.addSv = ()=>{
-    if(document.getElementsByName("maSv")[0].value=="" || document.getElementsByName("maSv")[0].value == "" || document.getElementsByName("matKhauSv")[0].value == ""){
+controller.addSv = () => {
+    if (document.getElementsByName("maSv")[0].value == "" || document.getElementsByName("maSv")[0].value == "" || document.getElementsByName("matKhauSv")[0].value == "") {
         alert("Chưa điềm đủ thông tin cần thiết")
-    }else if(document.getElementsByName("matKhauSv")[0].value != document.getElementsByName("rmatKhauSv")[0].value){
+    } else if (document.getElementsByName("matKhauSv")[0].value != document.getElementsByName("rmatKhauSv")[0].value) {
         alert("Mật khẩu không trùng nhau")
-    }else{
+    } else {
         const sv = {
-            maSv:document.getElementsByName("maSv")[0].value,
-            tenSv:document.getElementsByName("tenSv")[0].value,
-            diaChiSv:document.getElementsByName("diaChiSv")[0].value,
-            ngaySinhSv:document.getElementsByName("ngaySinhSv")[0].value,
-            khoaSv:document.getElementsByName("khoaSv")[0].value,
-            matKhauSv:document.getElementsByName("matKhauSv")[0].value,
+            maSv: document.getElementsByName("maSv")[0].value,
+            tenSv: document.getElementsByName("tenSv")[0].value,
+            diaChiSv: document.getElementsByName("diaChiSv")[0].value,
+            ngaySinhSv: document.getElementsByName("ngaySinhSv")[0].value,
+            khoaSv: document.getElementsByName("khoaSv")[0].value,
+            matKhauSv: document.getElementsByName("matKhauSv")[0].value,
         }
         $.ajax({
             type: "POST",
             url: 'http://localhost/Ql_diem/assets/model/taoSinhVien.php',
             data: sv,
             success: (data) => {
-                if(JSON.parse(data)[0].notification == "true"){
+                if (JSON.parse(data)[0].notification == "true") {
                     alert("Tạo sinh viên thành công");
                     $('#form-tao-sv').modal('hide');
-                }else if(JSON.parse(data)[0].notification == "trung"){
+                } else if (JSON.parse(data)[0].notification == "trung") {
                     alert("Mã đã tồn tại")
-                }else{
+                } else {
                     alert("Lỗi")
                 }
                 document.querySelector(".main-content").innerHTML = components.mainContentSv()
                 controller.getSv()
             }
         });
-        
+
     }
 }
-controller.getMh = (kw= "1")=>{
+controller.getMh = (kw = "1") => {
     $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getMonHoc.php',
-        data:{
-            key:kw,
+        data: {
+            key: kw,
         },
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
-                
-            }else{
-               let htmlRaw  = ""
-               let stt = 1
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            const list = JSON.parse(data);
+            if (list[0].notification) {
+
+            } else {
+                let htmlRaw = ""
+                let stt = 1
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <tr> <td>${stt++}</td>
                         <td>${item.maMonHoc}</td>
                         <td>${item.tenMonHoc}</td>
                         <td>${item.soTinChi}</td>
                    </tr> 
                    `
-               }
-               document.querySelector(".list-monhoc").innerHTML = htmlRaw
-               tableMonHoc()
+                }
+                document.querySelector(".list-monhoc").innerHTML = htmlRaw
+                tableMonHoc()
             }
 
         }
-      });
+    });
 }
-controller.addMh = ()=>{
-    
-    if( document.getElementsByName("maMh")[0].value=="" || document.getElementsByName("tenMh")[0].value =="" ){
+controller.addMh = () => {
+
+    if (document.getElementsByName("maMh")[0].value == "" || document.getElementsByName("tenMh")[0].value == "") {
         alert("Chưa điền đủ thông tin")
     }
-    else{
+    else {
         const mh = {
-            maMh:document.getElementsByName("maMh")[0].value,
-            tenMh:document.getElementsByName("tenMh")[0].value,
-            tinChi:document.getElementsByName("tinChi")[0].value,
+            maMh: document.getElementsByName("maMh")[0].value,
+            tenMh: document.getElementsByName("tenMh")[0].value,
+            tinChi: document.getElementsByName("tinChi")[0].value,
         }
         $.ajax({
             type: "POST",
             url: 'http://localhost/Ql_diem/assets/model/taoMonHoc.php',
             data: mh,
             success: (data) => {
-                if(JSON.parse(data)[0].notification == "true"){
+                if (JSON.parse(data)[0].notification == "true") {
                     alert("Tạo môn học thành công");
                     $('#form-tao-mh').modal('hide');
-                }else if(JSON.parse(data)[0].notification == "trung"){
+                } else if (JSON.parse(data)[0].notification == "trung") {
                     alert("Mã đã tồn tại")
-                }else{
+                } else {
                     alert("Lỗi")
                 }
                 document.querySelector(".main-content").innerHTML = components.mainContentMh()
@@ -131,16 +131,16 @@ controller.addMh = ()=>{
     }
 
 }
-controller.getDSSVL = (idLop)=>{
+controller.getDSSVL = (idLop) => {
     $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getDSSVL.php',
-        data:{
-            maLop:idLop,
+        data: {
+            maLop: idLop,
         },
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
+            const list = JSON.parse(data);
+            if (list[0].notification) {
                 let htmlRaw = `
                 <tr>
                 <td colspan="6">không có bản ghi nào</td>
@@ -149,13 +149,13 @@ controller.getDSSVL = (idLop)=>{
             <td><button class="btn btn-primary" data-toggle="modal" data-target="#form-tao-sv-vao-lop" type="button">Thêm sinh viên vào lớp</button></td> 
             </tr>
                    `
-                   document.querySelector(".list-danhsachsinhvienlop").innerHTML = htmlRaw
+                document.querySelector(".list-danhsachsinhvienlop").innerHTML = htmlRaw
 
-            }else{
-               let htmlRaw  = ""
-               let stt =1
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            } else {
+                let htmlRaw = ""
+                let stt = 1
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                     <tr>
                     <td>${stt++}</td>
                     <td>${item.maSinhVien}</td>
@@ -165,152 +165,152 @@ controller.getDSSVL = (idLop)=>{
                     <td><a href="#" idSVLop="${item.idSVLop}" class="xoaSVLop">Xóa</a></td>
                     </tr>
                    `
-               }
-               htmlRaw=htmlRaw+`<tr colspan="6">
+                }
+                htmlRaw = htmlRaw + `<tr colspan="6">
                <td><button class="btn btn-primary" data-toggle="modal" data-target="#form-tao-sv-vao-lop" type="button">Thêm sinh viên vào lớp</button></td> 
                </tr>`
-               document.querySelector(".list-danhsachsinhvienlop").innerHTML = htmlRaw
-               let listXoa = document.getElementsByClassName("xoaSVLop")
-               for(let item of listXoa){
-                   item.addEventListener("click",()=>{
-                    if((confirm('Bạn có chắc xóa sinh viên ra khỏi lớp'))){
-                        $.ajax({
-                            type: "POST",
-                            url: 'http://localhost/Ql_diem/assets/model/xoaSinhVienLop.php',
-                            data:{
-                                idSVLop:item.getAttribute("idSVLop"),
-                            },
-                            success: (data) => {
-                                const list=JSON.parse(data);
-                                if(list[0].notification =="true"){
-                                    alert("Xóa thành công")
-                                    controller.getDSSVL(idLop)
-                                }else{
-                                    alert("Hiện tại sinh viên đã có điểm tại lớp không thể xóa")
+                document.querySelector(".list-danhsachsinhvienlop").innerHTML = htmlRaw
+                let listXoa = document.getElementsByClassName("xoaSVLop")
+                for (let item of listXoa) {
+                    item.addEventListener("click", () => {
+                        if ((confirm('Bạn có chắc xóa sinh viên ra khỏi lớp'))) {
+                            $.ajax({
+                                type: "POST",
+                                url: 'http://localhost/Ql_diem/assets/model/xoaSinhVienLop.php',
+                                data: {
+                                    idSVLop: item.getAttribute("idSVLop"),
+                                },
+                                success: (data) => {
+                                    const list = JSON.parse(data);
+                                    if (list[0].notification == "true") {
+                                        alert("Xóa thành công")
+                                        controller.getDSSVL(idLop)
+                                    } else {
+                                        alert("Hiện tại sinh viên đã có điểm tại lớp không thể xóa")
+                                    }
+
                                 }
-                               
-                            }
-                          });
-                    }
-                   })
-               }
+                            });
+                        }
+                    })
+                }
             }
         }
     });
 }
-controller.getDsl = (idLop,maMon)=>{
+controller.getDsl = (idLop, maMon) => {
     console.log("Danh sách sv")
     $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getSinhVien.php',
-        data:{
-            key:1,
+        data: {
+            key: 1,
         },
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
-                
-            }else{
-               let htmlRaw  = `<label>Sinh viên:</label>
+            const list = JSON.parse(data);
+            if (list[0].notification) {
+
+            } else {
+                let htmlRaw = `<label>Sinh viên:</label>
                <select class="selectpicker" data-live-search="true" name="selectSvLop">
                 `
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <option data-tokens="${item.idSinhVien}" value="${item.idSinhVien}" idLop="${idLop}" maMon="${maMon}">${item.idSinhVien}- ${item.tenSinhVien}</option> 
                    `
-               }
-               htmlRaw =htmlRaw+ `</select>`
-               document.querySelector(".select-sv-lop").innerHTML = htmlRaw
-               $('.selectpicker').selectpicker();
+                }
+                htmlRaw = htmlRaw + `</select>`
+                document.querySelector(".select-sv-lop").innerHTML = htmlRaw
+                $('.selectpicker').selectpicker();
             }
 
         }
-      });
+    });
 
     controller.getDSSVL(idLop)
-   
+
 }
-document.querySelector(".btn-tao-sv-lop").addEventListener("click",()=>{
+document.querySelector(".btn-tao-sv-lop").addEventListener("click", () => {
     const sv = {
-        maLop:document.getElementsByName("selectSvLop")[0].options[document.getElementsByName("selectSvLop")[0].selectedIndex].getAttribute("idLop"),
-        maSinhVien:document.getElementsByName("selectSvLop")[0].value,
-        maMonHoc:document.getElementsByName("selectSvLop")[0].options[document.getElementsByName("selectSvLop")[0].selectedIndex].getAttribute("maMon"),
+        maLop: document.getElementsByName("selectSvLop")[0].options[document.getElementsByName("selectSvLop")[0].selectedIndex].getAttribute("idLop"),
+        maSinhVien: document.getElementsByName("selectSvLop")[0].value,
+        maMonHoc: document.getElementsByName("selectSvLop")[0].options[document.getElementsByName("selectSvLop")[0].selectedIndex].getAttribute("maMon"),
     }
     $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/taoSinhVienLop.php',
         data: sv,
-        success: (data) => {   
-            if(JSON.parse(data)[0].notification == "true"){
+        success: (data) => {
+            if (JSON.parse(data)[0].notification == "true") {
                 $('#form-tao-sv-vao-lop').modal('hide');
                 alert("Thêm sinh viên vào lớp thành công");
-            }else if(JSON.parse(data)[0].notification == "trung"){
+            } else if (JSON.parse(data)[0].notification == "trung") {
                 alert("Sinh viên đã ở trong lớp này hoặc đã học môn này")
                 $('#form-tao-sv-vao-lop').modal('hide');
-            }else{
+            } else {
                 alert("Lỗi")
             }
             controller.getDSSVL(sv.maLop)
         }
     });
-    
+
 })
-controller.getLop = ()=>{
+controller.getLop = () => {
     $.ajax({
         type: "GET",
         url: 'http://localhost/Ql_diem/assets/model/getHocKy.php',
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
+            const list = JSON.parse(data);
+            if (list[0].notification) {
                 alert("Không có bản ghi nào")
-            }else{
-               let htmlRaw  = ""
-               let stt =1
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            } else {
+                let htmlRaw = ""
+                let stt = 1
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <option value="${item.idHocKy}" selected="">${item.tenHocKy}</option>
                    `
-               }
-               document.querySelector(".select-lop-hocky").innerHTML = htmlRaw
+                }
+                document.querySelector(".select-lop-hocky").innerHTML = htmlRaw
             }
 
         }
-      });
-      $.ajax({
+    });
+    $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getMonHoc.php',
-        data:{
-            key:1,
+        data: {
+            key: 1,
         },
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
-                
-            }else{
-               let htmlRaw  = ""
-               let stt = 1
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            const list = JSON.parse(data);
+            if (list[0].notification) {
+
+            } else {
+                let htmlRaw = ""
+                let stt = 1
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <option value="${item.maMonHoc}" selected="">${item.tenMonHoc}( ${item.soTinChi} tín chỉ)</option>
                    `
-               }
-               document.querySelector(".select-lop-monhoc").innerHTML = htmlRaw
+                }
+                document.querySelector(".select-lop-monhoc").innerHTML = htmlRaw
             }
 
         }
-      });
-      $.ajax({
+    });
+    $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getLop.php',
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
-                
-            }else{
-               let htmlRaw  = ""
-               let stt = 1
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            const list = JSON.parse(data);
+            if (list[0].notification) {
+
+            } else {
+                let htmlRaw = ""
+                let stt = 1
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <tr> <td>${stt++}</td>
                         <td>${item.idLop}</td>
                         <td class="monhoc">${item.tenMonHoc}</td>
@@ -318,42 +318,42 @@ controller.getLop = ()=>{
                         <td><a class="item-lop" maLop="${item.idLop}" maMon="${item.maMonHoc}" >Xem danh sách lớp chi tiết</a></td>
                    </tr> 
                    `
-               }
-               document.querySelector(".list-lop").innerHTML = htmlRaw
-               tableLop()
-               let listLop = document.getElementsByClassName("item-lop")
-               for(let item of listLop){
-                   item.addEventListener("click",()=>{
-                    document.querySelector(".table-content").innerHTML = components.tableDsl(item.getAttribute("maLop"),item.parentElement.parentElement.querySelector(".monhoc").textContent,item.parentElement.parentElement.querySelector(".hocky").textContent)
-                    controller.getDsl(item.getAttribute("maLop"),item.getAttribute("maMon"))
-                   })
-               }
+                }
+                document.querySelector(".list-lop").innerHTML = htmlRaw
+                tableLop()
+                let listLop = document.getElementsByClassName("item-lop")
+                for (let item of listLop) {
+                    item.addEventListener("click", () => {
+                        document.querySelector(".table-content").innerHTML = components.tableDsl(item.getAttribute("maLop"), item.parentElement.parentElement.querySelector(".monhoc").textContent, item.parentElement.parentElement.querySelector(".hocky").textContent)
+                        controller.getDsl(item.getAttribute("maLop"), item.getAttribute("maMon"))
+                    })
+                }
             }
 
         }
-      });
+    });
 }
-controller.addLop = ()=>{
+controller.addLop = () => {
     const lop = {
-        maLop:document.getElementsByName("maLop")[0].value,
-        maMh:document.getElementsByName("select-mh")[0].value,
-        maHk:document.getElementsByName("select-hk")[0].value,
-        tenGv:document.getElementsByName("tenGv")[0].value,
+        maLop: document.getElementsByName("maLop")[0].value,
+        maMh: document.getElementsByName("select-mh")[0].value,
+        maHk: document.getElementsByName("select-hk")[0].value,
+        tenGv: document.getElementsByName("tenGv")[0].value,
     }
-    if(document.getElementsByName("maLop")[0].value == ""){
+    if (document.getElementsByName("maLop")[0].value == "") {
         alert("Chưa điền mã lớp")
-    }else{
+    } else {
         $.ajax({
             type: "POST",
             url: 'http://localhost/Ql_diem/assets/model/taoLop.php',
             data: lop,
             success: (data) => {
-                if(JSON.parse(data)[0].notification == "true"){
+                if (JSON.parse(data)[0].notification == "true") {
                     alert("Tạo lớp thành công");
                     $('#form-tao-lop').modal('hide');
-                }else if(JSON.parse(data)[0].notification == "trung"){
+                } else if (JSON.parse(data)[0].notification == "trung") {
                     alert("Mã đã tồn tại")
-                }else{
+                } else {
                     alert("Lỗi")
                 }
                 document.querySelector(".main-content").innerHTML = components.mainContentLop()
@@ -365,7 +365,7 @@ controller.addLop = ()=>{
 
 
 
-controller.loadNhapDiem = ()=>{
+controller.loadNhapDiem = () => {
     document.querySelector(".main-content").innerHTML = `
     <div>
         <div style="padding: 30px;">
@@ -386,41 +386,41 @@ controller.loadNhapDiem = ()=>{
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getLop.php',
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
-                
-            }else{
-               let htmlRaw  = ""
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            const list = JSON.parse(data);
+            if (list[0].notification) {
+
+            } else {
+                let htmlRaw = ""
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <option data-tokens="${item.idLop}" value="${item.idLop}">${item.tenMonHoc}-Lớp ${item.idLop}-${item.tenHocKy}</option> 
                    `
-               }
-               document.getElementsByName("selectLopDiem")[0].innerHTML = htmlRaw
-               $('.selectpicker1').selectpicker();
+                }
+                document.getElementsByName("selectLopDiem")[0].innerHTML = htmlRaw
+                $('.selectpicker1').selectpicker();
             }
 
         }
-     });
-     document.querySelector(".btn-search-lop").addEventListener("click",()=>{
+    });
+    document.querySelector(".btn-search-lop").addEventListener("click", () => {
         let t = document.getElementsByName("selectLopDiem")[0]
         let text = t.options[t.selectedIndex].text
         document.querySelector(".table-content").innerHTML = components.mainContentNhapDiem(text)
         $.ajax({
             type: "POST",
             url: 'http://localhost/Ql_diem/assets/model/getDSSVL.php',
-            data:{
-                maLop:t.value,
+            data: {
+                maLop: t.value,
             },
             success: (data) => {
-                const list=JSON.parse(data);
-                if(list[0].notification){
-                   
-                }else{
-                   let htmlRaw  = ""
-                   let stt =1
-                   for(let item of list){
-                       htmlRaw = htmlRaw +  `
+                const list = JSON.parse(data);
+                if (list[0].notification) {
+
+                } else {
+                    let htmlRaw = ""
+                    let stt = 1
+                    for (let item of list) {
+                        htmlRaw = htmlRaw + `
                         <tr>
                         <td>${stt++}</td>
                         <td>${item.maSinhVien}</td>
@@ -430,35 +430,35 @@ controller.loadNhapDiem = ()=>{
                         <td><a href="#" idSVLop="${item.idSVLop}" tenSinhVien="${item.tenSinhVien}-${item.maSinhVien}" lop="${text}"  class="nhapDiemSv" data-toggle="modal" data-target="#form-nhap-diem">Nhập điểm</a></td>
                         </tr>
                        `
-                   }
-                   document.querySelector(".list-danhsachsinhvienlop").innerHTML = htmlRaw
-                   let listXoa = document.getElementsByClassName("nhapDiemSv")
-                   for(let item of listXoa){
-                       item.addEventListener("click",()=>{
-                           const req = {
-                               idSVLop:item.getAttribute("idSVLop"),
-                               tenSinhVien:item.getAttribute("tenSinhVien"),
-                               lop:item.getAttribute("lop"),
-                           }
-    
-                           controller.nhapDiem(req)
-                       })
-                   }
+                    }
+                    document.querySelector(".list-danhsachsinhvienlop").innerHTML = htmlRaw
+                    let listXoa = document.getElementsByClassName("nhapDiemSv")
+                    for (let item of listXoa) {
+                        item.addEventListener("click", () => {
+                            const req = {
+                                idSVLop: item.getAttribute("idSVLop"),
+                                tenSinhVien: item.getAttribute("tenSinhVien"),
+                                lop: item.getAttribute("lop"),
+                            }
+
+                            controller.nhapDiem(req)
+                        })
+                    }
                 }
             }
         });
-     })
+    })
 }
-controller.nhapDiem = (req)=>{
+controller.nhapDiem = (req) => {
     $.ajax({
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/checkNhapDiem.php',
-        data:{
-            idSVLop:req.idSVLop
+        data: {
+            idSVLop: req.idSVLop
         },
         success: (data) => {
             const list = JSON.parse(data);
-            if(list[0].notification=="true"){
+            if (list[0].notification == "true") {
                 document.querySelector(".body-nhapdiem").innerHTML = `
                 <div class="form-group"><label>Tên Sinh Viên:</label><input type="text" class="form-control"
                 readonly  value="${req.tenSinhVien}"></div>
@@ -472,119 +472,119 @@ controller.nhapDiem = (req)=>{
                     name="diemCK"></div>
                 <div class="form-group d-flex justify-content-center"><button class="btn btn-primary btn-nhap-diem" type="button">Xác nhận</button></div>
                 `
-                document.querySelector(".btn-nhap-diem").addEventListener("click",()=>{
+                document.querySelector(".btn-nhap-diem").addEventListener("click", () => {
                     const diemCC = document.getElementsByName("diemCC")[0].value
                     const diemGK = document.getElementsByName("diemGK")[0].value
                     const diemCK = document.getElementsByName("diemCK")[0].value
                     const diem = {
-                        maSVLop:req.idSVLop,
-                        diemCC:diemCC,
-                        diemGK:diemGK,
-                        diemCK:diemCK,
+                        maSVLop: req.idSVLop,
+                        diemCC: diemCC,
+                        diemGK: diemGK,
+                        diemCK: diemCK,
                     }
-                    if(diemCC >= 0 && diemCC <= 10 && diemGK >= 0 && diemGK <= 10 && diemCK >= 0 && diemCK <= 10 || diemCC =="" || diemCK =="" || diemGK==""){
+                    if (diemCC >= 0 && diemCC <= 10 && diemGK >= 0 && diemGK <= 10 && diemCK >= 0 && diemCK <= 10 || diemCC == "" || diemCK == "" || diemGK == "") {
                         $.ajax({
                             type: "POST",
                             url: 'http://localhost/Ql_diem/assets/model/nhapDiem.php',
                             data: diem,
                             success: (data) => {
-                                if(JSON.parse(data)[0].notification == "true"){
+                                if (JSON.parse(data)[0].notification == "true") {
                                     alert("Nhập điểm thành công");
                                     $('#form-nhap-diem').modal('hide');
-                                }else if(JSON.parse(data)[0].notification == "trung"){
+                                } else if (JSON.parse(data)[0].notification == "trung") {
                                     alert("Lỗi")
-                                }else{
+                                } else {
                                     alert("Lỗi")
                                 }
                             }
                         });
-                    }else{
+                    } else {
                         alert("Nhập điểm không hợp")
                     }
                 })
-            }else{
+            } else {
                 //Đã nhập điểm
                 $.ajax({
                     type: "POST",
                     url: 'http://localhost/Ql_diem/assets/model/getDiemSvLop.php',
-                    data:{
-                        maSVLop:req.idSVLop,
+                    data: {
+                        maSVLop: req.idSVLop,
                     },
                     success: (data) => {
-                        const list=JSON.parse(data);
-                        if(list[0].notification){
-                            
-                        }else{
+                        const list = JSON.parse(data);
+                        if (list[0].notification) {
+
+                        } else {
                             let htmlRaw = `
                                         <div class="form-group"><label>Tên Sinh Viên:</label><input type="text" class="form-control"
                             readonly  value="${req.tenSinhVien}"></div>
                             <div class="form-group"><label>Lớp:</label><input type="text" class="form-control"
                             readonly value="${req.lop}"></div>`
-                            if(list[0].diemCC == null){
-                                htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Chuyên Cần:</label><input type="number" class="form-control"  name="diemCC"
+                            if (list[0].diemCC == null) {
+                                htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Chuyên Cần:</label><input type="number" class="form-control"  name="diemCC"
                                 ></div>`
-                            }else{
-                                htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Chuyên Cần:</label><input type="number" class="form-control"  name="diemCC"
+                            } else {
+                                htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Chuyên Cần:</label><input type="number" class="form-control"  name="diemCC"
                                 value="${list[0].diemCC}" readonly></div>`
                             }
-                            if(list[0].diemGK == null){
-                                htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Giữa Kỳ:</label><input type="number" class="form-control"  name="diemGK"
+                            if (list[0].diemGK == null) {
+                                htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Giữa Kỳ:</label><input type="number" class="form-control"  name="diemGK"
                                 ></div>`
-                            }else{
-                                htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Giữa Kỳ:</label><input type="number" class="form-control"  name="diemGK"
+                            } else {
+                                htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Giữa Kỳ:</label><input type="number" class="form-control"  name="diemGK"
                                 value="${list[0].diemGK}" readonly></div>`
                             }
-                            if(list[0].diemCK == null){
-                                htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Cuối Kỳ:</label><input type="number" class="form-control"  name="diemCK"
+                            if (list[0].diemCK == null) {
+                                htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Cuối Kỳ:</label><input type="number" class="form-control"  name="diemCK"
                                 ></div>`
-                            }else{
-                                htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Cuối Kỳ:</label><input type="number" class="form-control"  name="diemCK"
+                            } else {
+                                htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Cuối Kỳ:</label><input type="number" class="form-control"  name="diemCK"
                                 value="${list[0].diemCK}" readonly></div>`
                             }
-                            if(list[0].diemCC == null || list[0].diemGK == null || list[0].diemCK == null){
-                                htmlRaw=htmlRaw+`<div class="form-group d-flex justify-content-center"><button class="btn btn-primary btn-nhap-diem" type="button">Xác nhận</button></div>`
-                            }else{
-                                htmlRaw=htmlRaw+`<div class="form-group d-flex justify-content-center"><button class="btn btn-primary btn-nhap-diem" type="button" style="display:none">Xác nhận</button></div>`
+                            if (list[0].diemCC == null || list[0].diemGK == null || list[0].diemCK == null) {
+                                htmlRaw = htmlRaw + `<div class="form-group d-flex justify-content-center"><button class="btn btn-primary btn-nhap-diem" type="button">Xác nhận</button></div>`
+                            } else {
+                                htmlRaw = htmlRaw + `<div class="form-group d-flex justify-content-center"><button class="btn btn-primary btn-nhap-diem" type="button" style="display:none">Xác nhận</button></div>`
                             }
-                            
+
                             document.querySelector(".body-nhapdiem").innerHTML = htmlRaw
-                            document.querySelector(".btn-nhap-diem").addEventListener("click",()=>{
+                            document.querySelector(".btn-nhap-diem").addEventListener("click", () => {
                                 const diemCC = document.getElementsByName("diemCC")[0].value
                                 const diemGK = document.getElementsByName("diemGK")[0].value
                                 const diemCK = document.getElementsByName("diemCK")[0].value
                                 const diem = {
-                                    maSVLop:req.idSVLop,
-                                    diemCC:diemCC,
-                                    diemGK:diemGK,
-                                    diemCK:diemCK,
+                                    maSVLop: req.idSVLop,
+                                    diemCC: diemCC,
+                                    diemGK: diemGK,
+                                    diemCK: diemCK,
                                 }
-                                if(diemCC >= 0 && diemCC <= 10 && diemGK >= 0 && diemGK <= 10 && diemCK >= 0 && diemCK <= 10 || diemCC =="" || diemCK =="" || diemGK==""){
+                                if (diemCC >= 0 && diemCC <= 10 && diemGK >= 0 && diemGK <= 10 && diemCK >= 0 && diemCK <= 10 || diemCC == "" || diemCK == "" || diemGK == "") {
                                     $.ajax({
                                         type: "POST",
                                         url: 'http://localhost/Ql_diem/assets/model/suaDiem.php',
-                                        data:diem,
+                                        data: diem,
                                         success: (data) => {
-                                            const list=JSON.parse(data);
-                                            if(list[0].notification=="true"){
+                                            const list = JSON.parse(data);
+                                            if (list[0].notification == "true") {
                                                 alert("Nhập điểm thành công")
                                                 $('#form-nhap-diem').modal('hide');
-                                            }else{
+                                            } else {
                                                 alert("Lỗi")
                                             }
                                         }
                                     })
-                                }else{
+                                } else {
                                     alert("Nhập điểm không hợp")
                                 }
                             })
                         }
                     }
-                  });
+                });
             }
         }
-     });
+    });
 }
-controller.loadSuaDiem = ()=>{
+controller.loadSuaDiem = () => {
     document.querySelector(".main-content").innerHTML = `
     <div>
         <div style="padding: 30px;">
@@ -605,87 +605,181 @@ controller.loadSuaDiem = ()=>{
         type: "POST",
         url: 'http://localhost/Ql_diem/assets/model/getDiemSv.php',
         success: (data) => {
-            const list=JSON.parse(data);
-            if(list[0].notification){
-                
-            }else{
-               let htmlRaw  = ""
-               for(let item of list){
-                   htmlRaw = htmlRaw +  `
+            const list = JSON.parse(data);
+            if (list[0].notification) {
+
+            } else {
+                let htmlRaw = ""
+                for (let item of list) {
+                    htmlRaw = htmlRaw + `
                    <option data-tokens="${item.idLop}" value="${item.maSVLop}" tenSinhVien="${item.tenSinhVien}" tenLop="Lớp ${item.idLop}( ${item.maMonHoc})">${item.tenSinhVien}( ${item.maSinhVien})-Lớp ${item.idLop}( ${item.maMonHoc})</option> 
                    `
-               }
-               document.getElementsByName("selectSvDiem")[0].innerHTML = htmlRaw
-               $('.selectpicker2').selectpicker();
+                }
+                document.getElementsByName("selectSvDiem")[0].innerHTML = htmlRaw
+                $('.selectpicker2').selectpicker();
             }
         }
-     });
+    });
 
-     document.querySelector(".btn-sua-diem").addEventListener("click",()=>{
-            let t = document.getElementsByName("selectSvDiem")[0]
-            let tenSinhVien = t.options[t.selectedIndex].getAttribute("tenSinhVien")
-            let tenLop = t.options[t.selectedIndex].getAttribute("tenLop")
-         $.ajax({
+    document.querySelector(".btn-sua-diem").addEventListener("click", () => {
+        let t = document.getElementsByName("selectSvDiem")[0]
+        let tenSinhVien = t.options[t.selectedIndex].getAttribute("tenSinhVien")
+        let tenLop = t.options[t.selectedIndex].getAttribute("tenLop")
+        $.ajax({
             type: "POST",
             url: 'http://localhost/Ql_diem/assets/model/getDiemSvLop.php',
-            data:{
-                maSVLop:t.value,
+            data: {
+                maSVLop: t.value,
             },
             success: (data) => {
-                const list=JSON.parse(data);
-                if(list[0].notification){
-                    
-                }else{
-                    document.querySelector(".modal-title-form-nhap").innerHTML= "Sửa điểm"
+                const list = JSON.parse(data);
+                if (list[0].notification) {
+
+                } else {
+                    document.querySelector(".modal-title-form-nhap").innerHTML = "Sửa điểm"
                     let htmlRaw = `
                     <div class="form-group"><label>Tên Sinh Viên:</label><input type="text" class="form-control"
                     readonly  value="${tenSinhVien}"></div>
                     <div class="form-group"><label>Lớp:</label><input type="text" class="form-control"
                     readonly value="${tenLop}"></div>`
 
-                        htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Chuyên Cần:</label><input type="number" class="form-control"  name="diemCC"
+                    htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Chuyên Cần:</label><input type="number" class="form-control"  name="diemCC"
                         value="${list[0].diemCC}" ></div>`
 
-                        htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Giữa Kỳ:</label><input type="number" class="form-control"  name="diemGK"
+                    htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Giữa Kỳ:</label><input type="number" class="form-control"  name="diemGK"
                         value="${list[0].diemGK}" ></div>`
-                
-                        htmlRaw=htmlRaw+`<div class="form-group"><label>Điểm Cuối Kỳ:</label><input type="number" class="form-control"  name="diemCK"
+
+                    htmlRaw = htmlRaw + `<div class="form-group"><label>Điểm Cuối Kỳ:</label><input type="number" class="form-control"  name="diemCK"
                         value="${list[0].diemCK}" ></div>`
-                
-                    htmlRaw=htmlRaw+`<div class="form-group d-flex justify-content-center"><button class="btn btn-primary btn-nhap-diem" type="button">Xác nhận</button></div>`
+
+                    htmlRaw = htmlRaw + `<div class="form-group d-flex justify-content-center"><button class="btn btn-primary btn-nhap-diem" type="button">Xác nhận</button></div>`
                     document.querySelector(".body-nhapdiem").innerHTML = htmlRaw
-                    document.querySelector(".btn-nhap-diem").addEventListener("click",()=>{
+                    document.querySelector(".btn-nhap-diem").addEventListener("click", () => {
                         const diemCC = document.getElementsByName("diemCC")[0].value
                         const diemGK = document.getElementsByName("diemGK")[0].value
                         const diemCK = document.getElementsByName("diemCK")[0].value
                         const diem = {
-                            maSVLop:list[0].maSVLop,
-                            diemCC:diemCC,
-                            diemGK:diemGK,
-                            diemCK:diemCK,
+                            maSVLop: list[0].maSVLop,
+                            diemCC: diemCC,
+                            diemGK: diemGK,
+                            diemCK: diemCK,
                         }
-                        if(diemCC >= 0 && diemCC <= 10 && diemGK >= 0 && diemGK <= 10 && diemCK >= 0 && diemCK <= 10 || diemCC =="" || diemCK =="" || diemGK==""){
+                        if (diemCC >= 0 && diemCC <= 10 && diemGK >= 0 && diemGK <= 10 && diemCK >= 0 && diemCK <= 10 || diemCC == "" || diemCK == "" || diemGK == "") {
                             $.ajax({
                                 type: "POST",
                                 url: 'http://localhost/Ql_diem/assets/model/suaDiem.php',
-                                data:diem,
+                                data: diem,
                                 success: (data) => {
-                                    const list=JSON.parse(data);
-                                    if(list[0].notification=="true"){
+                                    const list = JSON.parse(data);
+                                    if (list[0].notification == "true") {
                                         alert("Sửa điểm thành công")
                                         $('#form-nhap-diem').modal('hide');
-                                    }else{
+                                    } else {
                                         alert("Lỗi")
                                     }
                                 }
                             })
-                        }else{
+                        } else {
                             alert("Nhập điểm không hợp")
                         }
                     })
                 }
             }
-          });
+        });
 
-     })
+    })
+}
+
+
+controller.loadHocBong = () => { }
+
+controller.loadNoMon = () => {
+    document.querySelector(".main-content").innerHTML = `
+    <div>
+        <div style="padding: 30px;">
+            <label>Xem danh sách sinh viên nợ môn:</label>
+            <select class="selectpicker3" data-live-search="true" name="selectNoMon">
+                
+            </select> 
+            <button class="btn btn-primary btn-nomon" type="button" >Xác nhận</button>
+        </div>
+    </div>
+    <div class="table-content">
+        <div style="padding: 30px;">
+        
+        </div>
+    </div>
+    `
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost/Ql_diem/assets/model/getMonHoc.php',
+        data: {
+            key: 1,
+        },
+        success: (data) => {
+            const list = JSON.parse(data);
+
+            if (list[0].notification) {
+
+            } else {
+                for(let item of list){
+                document.getElementsByName("selectNoMon")[0].insertAdjacentHTML("beforeend",`<option data-tokens="" value="${item.maMonHoc}"> ${item.tenMonHoc}-${item.maMonHoc}</option>`)
+                }
+            }
+            $('.selectpicker3').selectpicker();
+        }
+    });
+    document.querySelector(".btn-nomon").addEventListener("click",()=>{
+    
+        document.querySelector(".table-content").innerHTML =  components.mainContentNoMon( document.getElementsByName("selectNoMon")[0].options[document.getElementsByName("selectNoMon")[0].selectedIndex].text)
+        document.querySelector(".list-danhsachsinhvien").innerHTML = ""
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost/Ql_diem/assets/model/getDiembyMonHoc.php',
+            data: {
+                maMonHoc: document.getElementsByName("selectNoMon")[0].value 
+            },
+            success: (data) => {
+                const list=JSON.parse(data);
+                if (list[0].notification) {       
+                    document.querySelector(".list-danhsachsinhvien").innerHTML = `<tr>
+                    <td colspan="10">Không có bản ghi nào</td>
+                    </tr>`
+               }else{
+                    let temp = 0
+                    let stt = 1
+                    for(let item of list){
+                        if (item.diemCC == null || item.diemGK == null || item.diemCK == null) {
+                        }
+                        else{
+                            let diemTB = (Number( Number(item.diemCC) +  Number(item.diemGK) +  Number(item.diemCK)) / 3).toFixed(1)
+                            if(diemTB<4){
+                                temp = 1
+                                document.querySelector(".list-danhsachsinhvien").insertAdjacentHTML("beforeend",`
+                                <tr>
+                                    <th>${stt++}</th>
+                                    <th>${item.maSinhVien}</th>
+                                    <th>${item.tenSinhVien}</th>
+                                    <th>${item.ngaySinh}</th>
+                                    <th>${item.khoa}</th>
+                                    <th>${item.diemCC}</th>
+                                    <th>${item.diemGK}</th>
+                                    <th>${item.diemCK}</th>
+                                    <th>${diemTB}</th>
+                                    <th>Học Lại</th>
+                                </tr>
+                                `)
+                            }
+                        }
+                    }
+                    if(temp==0){
+                        document.querySelector(".list-danhsachsinhvien").innerHTML = `<tr>
+                        <td colspan="10">Không có bản ghi nào</td>
+                        </tr>`
+                    }
+               }
+            }
+        })
+    })
+  
 }
