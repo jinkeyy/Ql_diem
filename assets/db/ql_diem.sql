@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 20, 2021 lúc 10:46 AM
+-- Thời gian đã tạo: Th6 20, 2021 lúc 04:39 PM
 -- Phiên bản máy phục vụ: 10.4.18-MariaDB
 -- Phiên bản PHP: 8.0.3
 
@@ -42,10 +42,10 @@ INSERT INTO `t_danhsachsinhvienlop` (`idSVLop`, `maLop`, `maSinhVien`) VALUES
 (2, 2, 1802),
 (4, 1, 1802),
 (6, 1, 1812),
-(10, 1, 1800),
 (20, 4, 1800),
 (25, 6, 1800),
-(26, 7, 1800);
+(26, 7, 1800),
+(27, 113, 1802);
 
 -- --------------------------------------------------------
 
@@ -68,10 +68,11 @@ CREATE TABLE `t_diem` (
 
 INSERT INTO `t_diem` (`id`, `maSVLop`, `diemCC`, `diemGK`, `diemCK`, `diemTB`) VALUES
 (4, 4, 5.5, 1, 5, NULL),
-(5, 6, 1, 2, NULL, NULL),
+(5, 6, 1, 2, 3, NULL),
 (7, 20, 10, 10, 8, NULL),
 (8, 25, 9, 9, 9, NULL),
-(9, 26, 8, 8, 9, NULL);
+(9, 26, 8, 8, 9, NULL),
+(10, 27, 5, 5, 1.5, NULL);
 
 -- --------------------------------------------------------
 
@@ -167,7 +168,7 @@ CREATE TABLE `t_sinhvien` (
 INSERT INTO `t_sinhvien` (`idSinhVien`, `tenSinhVien`, `khoa`, `ngaySinh`, `diaChi`, `matKhau`) VALUES
 (1800, 'Đoàn Thị Sáng', 'k63', '2021-06-19', 'Hà Nội', '1'),
 (1801, 'Nguyễn Văn A', 'K63', '2000-01-06', 'Hà Nội', '1'),
-(1802, 'Nguyễn Văn B', 'k63', '0000-00-00', 'Lào Cai', '1'),
+(1802, 'Lê Thị H', 'k63', '0000-00-00', 'Lào Cai', '1'),
 (1812, 'Nguyễn Văn B', 'k63', '0000-00-00', 'HCM', '1');
 
 --
@@ -224,13 +225,13 @@ ALTER TABLE `t_sinhvien`
 -- AUTO_INCREMENT cho bảng `t_danhsachsinhvienlop`
 --
 ALTER TABLE `t_danhsachsinhvienlop`
-  MODIFY `idSVLop` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `idSVLop` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `t_diem`
 --
 ALTER TABLE `t_diem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `t_hocky`
