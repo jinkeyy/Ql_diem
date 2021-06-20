@@ -1,40 +1,139 @@
 let controller = {}
-controller.loadDiem = (idSinhVien) => {
+
+
+function getDiem(maHk,idSinhVien) {
+    return new Promise(res=>{
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost/Ql_diem/assets/model/getDiembySv.php',
+            data: {
+                maHocKy: maHk,
+                maSinhVien: idSinhVien
+            },
+            success: (data) => {
+                res(JSON.parse(data))
+            }
+        });
+    });
+}
+function getLopSv() {
+    return new Promise(res=>{
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost/Ql_diem/assets/model/getLopSv.php',
+            success: (data) => {
+                res(JSON.parse(data))
+            }
+        });
+    });
+}
+controller.loadDiem   =   (idSinhVien)  =>  {
     console.log("load " + idSinhVien)
     tableDiem()
-    $.ajax({
+     $.ajax({
         type: "GET",
         url: 'http://localhost/Ql_diem/assets/model/getHocKy.php',
-        success: (data) => {
+        success: async (data) => {
             const list = JSON.parse(data);
             if (list[0].notification) {
                 alert("Không có bản ghi nào")
             } else {
                 let htmlRaw = `<option value="all" selected>Toàn Khóa</option>`
-                let htmlRaw1 = ""
                 let stt = 1
+                let diem = []
+                const lopSv = await getLopSv()
+                getSoTinChi =  (maLop) => {
+                    for (let item of lopSv) {
+                        if (item["idLop"] == maLop) {
+                            return {
+                                tenMonHoc: item["tenMonHoc"],
+                                tenHocKy: item["tenHocKy"],
+                                soTinChi: item["soTinChi"],
+                            }
+                        }
+                    }
+                }
+                let tongSoTinChi=0;
+                let tongDiem=0;
+                let tongDiem4=0;
+                let tongMon = 0;
                 for (let i = 0; i < (66 - localStorage.getItem('khoa')) * 2; i++) {
                     let maHk = list[i].idHocKy
                     let tenHk = list[i].tenHocKy
-                    htmlRaw = htmlRaw + `
-                   <option value="${maHk}" >${tenHk}</option>
-                   `
-                    htmlRaw1 = htmlRaw1 +`
-                        <tr>
-                        <td>${list[i].tenHocKy}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>
-                    `
+                    let tongdiemTb = 0;
+                    let tongdiemTb4 = 0
+                    let soTinChi= 0;
+
+                    let dataDiem = await getDiem(maHk,idSinhVien)
+                    // $.ajax({
+                    //     type: "GET",
+                    //     url: 'http://localhost/Ql_diem/assets/model/getDiembySv.php',
+                    //     data: {
+                    //         maHocKy: maHk,
+                    //         maSinhVien: idSinhVien
+                    //     },
+                    //     success: (data) => {
+                    //         const diem = JSON.parse(data);
+                    //         if (diem[0].notification) {
+
+                    //         } else {
+                    //             console.log(diem)
+                    //         }
+                    //     }
+                    // });
+                    console.log(dataDiem)
+                    for(let diem of dataDiem){
+                        if (diem.diemCC == null || diem.diemGK == null || diem.diemCK == null) {
+                        
+                        } else{
+                            tongMon = tongMon+1
+                            const diemMon = (( Number(diem.diemCC) +  Number(diem.diemGK) +  Number(diem.diemCK)) / 3)
+                            tongdiemTb = Number(tongdiemTb) +diemMon
+                            tongDiem= tongDiem+diemMon
+                            soTinChi = Number(soTinChi) + Number(getSoTinChi(diem.maLop).soTinChi)
+                            if(diemMon<4){
+                                tongdiemTb4 =  Number(tongdiemTb4) + Number(getSoTinChi(diem.maLop).soTinChi*0)
+                                tongDiem4 = tongDiem4 + Number(getSoTinChi(diem.maLop).soTinChi*0)
+                            }else if(diemMon>=4 && diemMon <=5.4){
+                                tongdiemTb4 =  Number(tongdiemTb4) + Number(getSoTinChi(diem.maLop).soTinChi*1)
+                                tongDiem4 = tongDiem4 + Number(getSoTinChi(diem.maLop).soTinChi*1)
+                            }else if(diemMon >= 5.5 && diemMon <= 6.9){
+                                tongdiemTb4 =  Number(tongdiemTb4) + Number(getSoTinChi(diem.maLop).soTinChi*2)
+                                tongDiem4 = tongDiem4 + Number(getSoTinChi(diem.maLop).soTinChi*2)
+                            }
+                            else if(diemMon >= 7 && diemMon <= 8.4){
+                                tongdiemTb4 = Number(tongdiemTb4) + Number(getSoTinChi(diem.maLop).soTinChi*3)
+                                tongDiem4 = tongDiem4 + Number(getSoTinChi(diem.maLop).soTinChi*3)
+                            }
+                            else if(diemMon >= 8.5){
+                                tongdiemTb4 = Number(tongdiemTb4) + Number(getSoTinChi(diem.maLop).soTinChi*4)
+                                tongDiem4 = tongDiem4 + Number(getSoTinChi(diem.maLop).soTinChi*4)
+                            }
+                        }
+                    }
+                    let diem4 = Number(tongdiemTb4)/Number(soTinChi)
+                    if(isNaN(diem4)){
+                        diem4 = 0
+                        console.log(diem4)
+                    }
+                    
+                    document.querySelector(".list-tongdiem").insertAdjacentHTML("beforebegin",`<tr>
+                    <td>${tenHk}</td>
+                    <td>${Number(soTinChi)}</td>
+                    <td>${(Number(tongdiemTb)/dataDiem.length).toFixed(1)}</td>
+                    <td>${diem4}</td>
+                    </tr>`) 
+                    htmlRaw = htmlRaw + `<option value="${maHk}" >${tenHk}</option>`
+                    tongSoTinChi=tongSoTinChi+Number(soTinChi)
                 }
-                htmlRaw1 = htmlRaw1+`<tr>
+                console.log(tongDiem4)
+                console.log(tongSoTinChi)
+                document.querySelector(".list-tongdiem").insertAdjacentHTML("beforebegin",`<tr>
                 <td>Toàn Khóa</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                </tr>`
-                document.querySelector(".list-tongdiem").innerHTML = htmlRaw1
+                <td>${tongSoTinChi}</td>
+                <td>${Number(tongDiem/tongMon).toFixed(1)}</td>
+                <td>${(tongDiem4/tongSoTinChi).toFixed(1)}</td>
+                </tr>`) 
                 document.getElementsByName("select-hocky")[0].innerHTML = htmlRaw
             }
 

@@ -87,7 +87,7 @@ components.mainContentDiem = (userSv,tenSv)=>{
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark ">
-                <tr >
+                <tr>
                     <th>Học Kỳ</th>
                     <th>Tổng Số Tín Chỉ</th>
                     <th>Điểm Trung Bình</th>
@@ -95,15 +95,7 @@ components.mainContentDiem = (userSv,tenSv)=>{
                 </tr>
             </thead>
             <tbody class="list-tongdiem">
-                <tr>
-                  <td colspan="4">không có bản ghi nào</td>
-                </tr>
-                <tr>
-                  <td>Toàn Khóa</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
+
             </tbody>
         </table>
     </div>
