@@ -76,9 +76,10 @@ let view = {}
                         document.querySelector(".btn-thongkenomon").addEventListener("click",()=>{
                             controller.loadNoMon()
                         })
-                        document.querySelector(".btn-inbangdiem").addEventListener("click",()=>{
-                            controller.inBangDiem()
-                        })
+
+                        break;
+                    case '7':
+                        controller.inBangDiem()
                         break;
                     default:
                         alert("Lỗi")
