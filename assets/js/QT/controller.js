@@ -717,6 +717,7 @@ controller.loadHocBong = () => {
             <button class="btn btn-primary btn-hocbong" type="button" >Xác nhận</button>
         </div>
     </div>
+    <div class="in-wrapper"><div style="padding: 30px; display:none" ><button class="btn btn-primary" type="button" >In danh sách</button></div></div>
     <div class="table-content">
         <div style="padding: 30px;">
         
@@ -743,6 +744,7 @@ controller.loadHocBong = () => {
         }
     });
     document.querySelector(".btn-hocbong").addEventListener("click",()=>{
+        
         document.querySelector(".table-content").innerHTML =  components.mainContentHocBong( document.getElementsByName("selectHocBong")[0].options[document.getElementsByName("selectHocBong")[0].selectedIndex].text)
         $.ajax({
             type: "POST",
@@ -842,6 +844,7 @@ controller.loadNoMon = () => {
             <button class="btn btn-primary btn-nomon" type="button" >Xác nhận</button>
         </div>
     </div>
+   
     <div class="table-content">
         <div style="padding: 30px;">
         
@@ -920,4 +923,232 @@ controller.loadNoMon = () => {
         })
     })
   
+}
+
+controller.inBangDiem = () => {
+    document.querySelector(".main-content").innerHTML = `
+    <div>
+        <div style="padding: 30px;">
+            <label>Chọn sinh viên:</label>
+            <select class="selectpicker5" data-live-search="true" name="selectBangDiem">
+                
+            </select> 
+            <button class="btn btn-primary btn-inbangdiem" type="button" >Xác nhận</button>
+        </div>
+    </div>
+  
+    <div class="table-content">
+        <div style="padding: 30px;">
+        
+        </div>
+    </div>
+    <div class="in-wrapper"><div style="padding: 30px;" ><button class="btn btn-primary btn-in" type="button" >In bảng điểm</button></div></div>
+    `
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost/Ql_diem/assets/model/getSinhVien.php',
+        data: {
+            key: 1,
+        },
+        success: (data) => {
+            const list = JSON.parse(data);
+
+            if (list[0].notification) {
+
+            } else {
+                for(let item of list){
+                document.getElementsByName("selectBangDiem")[0].insertAdjacentHTML("beforeend",`<option data-tokens="" ten="${item.tenSinhVien}" value="${item.idSinhVien}" khoa="${item.khoa}"> ${item.tenSinhVien}-${item.idSinhVien}</option>`)
+                }
+            }
+            $('.selectpicker5').selectpicker();
+        }
+    });
+    document.querySelector(".btn-inbangdiem").addEventListener("click",()=>{
+        document.querySelector(".table-content").innerHTML = `<div style="padding: 30px;">
+        <div style="margin: 15px 0px;">
+            <h5 style="color: var(--pink);">BẢNG ĐIỂM CHI TIẾT: ${ document.getElementsByName("selectBangDiem")[0].options[document.getElementsByName("selectBangDiem")[0].selectedIndex].text}</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>STT</th>
+                        <th>Học Kỳ</th>
+                        <th>Mã Môn Học</th>
+                        <th>Tên Mồn Học</th>
+                        <th>Số Tín Chỉ</th>
+                        <th>Điểm Chuyên Cần</th>
+                        <th>Điểm Giữa Kỳ</th>
+                        <th>Điểm Cuối Kỳ</th>
+                        <th>Điểm Trung Bình</th>
+                        <th>Điểm Thang 4</th>
+                        <th>Xếp Loại</th>
+                        <th>Đánh Giá</th>
+                    </tr>
+                </thead>
+                <tbody class="list-diem-by-sinhvien">
+                 </tbody>
+            </table>
+            <table class=" bangDiemIn" style="display:none;">
+                <tr>
+                    <td colspan="2" >Mã Sinh Viên:</td>
+                    <td colspan="2" class="in-ma">${document.getElementsByName("selectBangDiem")[0].value}</td>
+                    <td colspan="8"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" >Tên Sinh Viên:</td>
+                    <td colspan="2" class="in-ten">${document.getElementsByName("selectBangDiem")[0].options[document.getElementsByName("selectBangDiem")[0].selectedIndex].getAttribute("ten")}</td>
+                    <td colspan="8"></td>
+                 </tr>
+                <tr>
+                    <td colspan="2">Khóa:</td>
+                    <td colspan="2" class="in-khoa">${document.getElementsByName("selectBangDiem")[0].options[document.getElementsByName("selectBangDiem")[0].selectedIndex].getAttribute("khoa")}</td>
+                    <td colspan="8"></td>
+                </tr>
+                <tr>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                <td colspan="12"></td>
+            </tr>
+            <tr>
+            <td colspan="12"></td>
+        </tr>
+        <tr>
+        <td colspan="12">Bảng điểm chi tiết</td>
+    </tr>
+                <tr>
+                    <td>STT</td>
+                    <td>Học Kỳ</td>
+                    <td>Mã Môn Học</td>
+                    <td>Tên Mồn Học</td>
+                    <td>Số Tín Chỉ</td>
+                    <td>Điểm Chuyên Cần</td>
+                    <td>Điểm Giữa Kỳ</td>
+                    <td>Điểm Cuối Kỳ</td>
+                    <td>Điểm Trung Bình</td>
+                    <td>Điểm Thang 4</td>
+                    <td>Xếp Loại</td>
+                    <td>Đánh Giá</td>
+                </tr>
+            <tbody class="list-diem-by-sinhvien-in">
+                    <tr></tr>
+             </tbody>
+        </table>
+        </div>
+      </div>`
+        controller.getDiem(document.getElementsByName("selectBangDiem")[0].value)
+    })
+}
+controller.getDiem = (idSinhVien,maHocKy = "all") => {
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost/Ql_diem/assets/model/getLopSv.php',
+        success: (data) => {
+            const lop = JSON.parse(data);
+            if (lop[0].notification) {
+                alert("Không có bản ghi nào")
+            } else {
+                getMonHoc = (maLop) => {
+                    for (let item of lop) {
+                        if (item["idLop"] == maLop) {
+                            return {
+                                tenMonHoc: item["tenMonHoc"],
+                                tenHocKy: item["tenHocKy"],
+                                soTinChi: item["soTinChi"],
+                            }
+                        }
+                    }
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: 'http://localhost/Ql_diem/assets/model/getDiembySv.php',
+                    data: {
+                        maHocKy: maHocKy,
+                        maSinhVien: idSinhVien
+                    },
+                    success: (data) => {
+                        const diem = JSON.parse(data);
+                        if (diem[0].notification) {
+                
+                             document.querySelector(".list-diem-by-sinhvien").innerHTML = `<tr>
+                             <td colspan="12">Không có bản ghi nào</td>
+                             </tr>`
+                        } else {
+                            let htmlRaw = ""
+                            let stt = 1
+                            for (let item of diem) {
+                                soTinChi = getMonHoc(item.maLop).soTinChi
+                                let diem4 = 0;
+                                let diemTB = ""
+                                let danhGia = ""
+                                let xepLoai = ""
+                                if (item.diemCC == null || item.diemGK == null || item.diemCK == null) {
+                                    
+                                } else {
+                                    diemTB = (Number( Number(item.diemCC)*0.2 +  Number(item.diemGK)*0.2 +  Number(item.diemCK)*0.6)).toFixed(1)
+                                    if (diemTB >= 4) {
+                                        danhGia = "ĐẠT"
+                                    } else {
+                                        danhGia = "HỌC LẠI"
+                                    }
+                                    
+                                    if(diemTB<4){
+                                        diem4 = 0*soTinChi/soTinChi
+                                        xepLoai = "F"
+                                    }else if(diemTB>=4 && diemTB <=5.4){
+                                        diem4 = 1*soTinChi/soTinChi
+                                        xepLoai = "D"
+                                    }else if(diemTB >= 5.5 && diemTB <= 6.9){
+                                        diem4 = 2*soTinChi/soTinChi
+                                        xepLoai = "C"
+                                    }
+                                    else if(diemTB >= 7 && diemTB <= 8.4){
+                                        diem4 = 3*soTinChi/soTinChi
+                                        xepLoai = "B"
+                                    }
+                                    else if(diemTB >= 8.5){
+                                        diem4 = 4*soTinChi/soTinChi
+                                        xepLoai = "A"
+                                    }
+
+
+                                }
+                                tenMonHoc = getMonHoc(item.maLop).tenMonHoc
+                                tenHocKy= getMonHoc(item.maLop).tenHocKy
+   
+                                htmlRaw = htmlRaw + `
+                                <tr>
+                                    <td>${stt++}</td>
+                                    <td>${tenHocKy}</td>
+                                    <td>${item.maMonHoc}</td>
+                                    <td>${tenMonHoc}</td>
+                                    <td>${soTinChi}</td>
+                                    <td>${item.diemCC}</td>
+                                    <td>${item.diemGK}</td>
+                                    <td>${item.diemCK}</td>
+                                    <td>${diemTB}</td>
+                                    <td>${diem4}</td>
+                                    <td>${xepLoai}</td>
+                                    <td>${danhGia}</td>
+                                </tr>
+                                `
+                            }
+                            document.querySelector(".list-diem-by-sinhvien").innerHTML = htmlRaw
+                            document.querySelector(".list-diem-by-sinhvien-in").innerHTML =htmlRaw
+                            $(".btn-in").click(function(){
+                                $(".bangDiemIn").table2excel({
+                                  // exclude CSS class
+                                  exclude: ".noExl",
+                                  name: "Worksheet Name",
+                                  filename: "Bảng điểm" //do not include extension
+                                }); 
+                              });
+                        }
+                    }
+                });
+            }
+        }
+    });
 }

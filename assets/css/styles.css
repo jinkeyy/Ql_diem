@@ -46,3 +46,11 @@
   background: lightskyblue !important;
   transition: 0.3s all;
 }
+.btn-inbangdiem{
+  cursor: pointer;
+  border-radius: 5px;
+}
+.btn-inbangdiem:hover{
+  background: tomato !important;
+  transition: 0.3s all;
+}

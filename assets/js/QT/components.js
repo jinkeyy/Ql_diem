@@ -298,6 +298,11 @@ components.mainContentThongKe = ()=>{
             <h3 style="color: var(--light);font-size: 100%;">THỐNG KÊ SINH VIÊN NỢ MÔN</h3>
         </div>
     </div>
+    <div class="col d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center btn-inbangdiem" style="width: 50%;height: 200px;background: linear-gradient(-82deg, var(--blue) 4%, var(--info) 97%), var(--red);box-shadow: 0px 0px 10px var(--gray-dark);">
+        <h3 style="color: var(--light);font-size: 100%;" >IN BẢNG ĐIỂM</h3>
+    </div>
+</div>
   </div>`
 }
 components.mainContentNoMon = (text)=>{
