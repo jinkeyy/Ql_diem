@@ -6,7 +6,7 @@
 
     // Kết nối database tintuc
     $connect = mysqli_connect($server, $username, $password, $dbname);
-    mysqli_set_charset($connect,"UTF-8");
+    mysqli_set_charset($connect,"UTF8");
     //Nếu kết nối bị lỗi thì xuất báo lỗi và thoát.
 
 
